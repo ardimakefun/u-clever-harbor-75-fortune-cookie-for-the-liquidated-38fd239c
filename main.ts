@@ -23,6 +23,13 @@ if (WORDS > 20) {
   throw new Error(`Fortune must be at most 20 words, got ${WORDS}`);
 }
 
+// No leading or trailing whitespace: padding would silently eat the
+// 160-character budget and could make the entry look malformed on the
+// feed. The fortune must be exactly the text it claims to be.
+if (FORTUNE !== FORTUNE.trim()) {
+  throw new Error("Fortune must not have leading or trailing whitespace");
+}
+
 // The bounty requires exactly one line: a newline or carriage return
 // smuggled into the fortune would break the single-line entry, so fail
 // loudly.
